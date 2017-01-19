@@ -7,6 +7,7 @@
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
   _.identity = function(val) {
+    //returning original value
     return val;
   };
 
@@ -32,12 +33,18 @@
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
   _.first = function(array, n) {
+    //using ternary so that if n is undefined then first value will be returned
+    //otherwise the first n elements will be returned
     return n === undefined ? array[0] : array.slice(0, n);
   };
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+    //first ternary deals with if n is greater than array length
+    /*the nested ternary deals with if n is less than array length
+      and if n is undefined then returns last. Else it returns n 
+      last numbers */
     return n > array.length ? array : n === undefined ? array[array.length - 1] : array.slice(array.length - n);
   };
 
@@ -47,6 +54,8 @@
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
+    //first if statement is to check if collection is array or object
+    //Then use for in or for loop depending if array or object
     if (Array.isArray(collection)) {
       for (var i = 0; i < collection.length; i++) {
         iterator(collection[i], i, collection);
@@ -78,6 +87,8 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    //create final array to push filtered items to 
+    //test each item and push to array if item passes test
     var finalArray = [];
     for (var i = 0; i < collection.length; i++) {
       if (test(collection[i])) {
@@ -91,6 +102,7 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    //use _.indexOf and _.filter to push the elements that do not pass
     var finalArray = [];
     for (var i = 0; i < collection.length; i++) {
       if (_.indexOf(_.filter(collection, test), collection[i]) === -1) {
@@ -102,6 +114,8 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    //create object that holds each unique element
+    //push the keys of the object to the finalArray
     var elementCounter = {};
     var finalArray = [];
     for (var i = 0; i < array.length; i++) {
@@ -170,6 +184,9 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    /*reduce array or object down to single value that follows
+    from passing to iterator function */
+
     if (Array.isArray(collection)) {
       if (accumulator == undefined) {
         accumulator = collection[0];
@@ -202,6 +219,7 @@
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
+    //use reduce to check if value is contained in collection
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
     return _.reduce(collection, function(wasFound, item) {
@@ -215,6 +233,8 @@
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+    //if no iterator is given then assign identity
+    //use reduce to reduce down to single value
     if (iterator == undefined) {
       iterator = _.identity;
     }
@@ -229,6 +249,7 @@
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+    //negate both return values to get desired result
     if (iterator == undefined) {
       iterator = _.identity;
     }
@@ -258,6 +279,15 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    //declare original variable which contains the first argument
+    //then each additional argument take the property values and add to original
+    var original = obj;
+    for (var i = 1; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        original[key] = arguments[i][key];
+      }
+    }
+    return original;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
