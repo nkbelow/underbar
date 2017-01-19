@@ -102,6 +102,20 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var elementCounter = {};
+    var finalArray = [];
+    for (var i = 0; i < array.length; i++) {
+      if (elementCounter[array[i]] == undefined) {
+        elementCounter[array[i]] = 1;
+      }
+      else {
+        elementCounter[array[i]]++;
+      }
+    }
+    for (var element in elementCounter) {
+      finalArray.push(Number(element));
+    }
+    return finalArray;
   };
 
 
