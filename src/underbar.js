@@ -91,6 +91,13 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var finalArray = [];
+    for (var i = 0; i < collection.length; i++) {
+      if (_.indexOf(_.filter(collection, test), collection[i]) === -1) {
+        finalArray.push(collection[i]);
+      }
+    }
+    return finalArray;
   };
 
   // Produce a duplicate-free version of the array.
