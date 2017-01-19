@@ -279,20 +279,29 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    //declare original variable which contains the first argument
-    //then each additional argument take the property values and add to original
-    var original = obj;
+    //each additional argument take the property values and add to original object
     for (var i = 1; i < arguments.length; i++) {
       for (var key in arguments[i]) {
-        original[key] = arguments[i][key];
+        obj[key] = arguments[i][key];
       }
     }
-    return original;
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    /* add each new argument key from each argument after the 
+    original to the original object. Do not overwrite key that 
+    is already present */
+    for (var i = 1; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        if (obj[key] == undefined) {
+          obj[key] = arguments[i][key];
+        }
+      }
+    }
+    return obj;
   };
 
 
