@@ -102,14 +102,10 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    //use _.indexOf and _.filter to push the elements that do not pass
-    var finalArray = [];
-    for (var i = 0; i < collection.length; i++) {
-      if (_.indexOf(_.filter(collection, test), collection[i]) === -1) {
-        finalArray.push(collection[i]);
-      }
-    }
-    return finalArray;
+    return _.filter(collection, function(itemToCheck) {
+      return !test(itemToCheck);
+    });
+    
   };
 
   // Produce a duplicate-free version of the array.
@@ -367,12 +363,14 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    //create array of arguments to pass into function
     var argumentsToPass = [];
     for (var i = 2; i < arguments.length; i++) {
       argumentsToPass.push(arguments[i]);
     }
-    var finalFunction = func.apply(this, argumentsToPass);
-    setTimeout(finalFunction, wait);
+    setTimeout(function() {
+      func.apply(this, argumentsToPass);
+    }, wait);
   };
 
 
