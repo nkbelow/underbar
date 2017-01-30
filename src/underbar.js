@@ -484,11 +484,39 @@
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    var comparisonArray = arguments[0];
+    //console.log(Array.isArray(comparisonArray));
+    var arraysToCheck = Array.prototype.slice.call(arguments, 1);
+    return _.filter(comparisonArray, function(element) {
+    for (var i = 0; i < arraysToCheck.length; i++) {
+        if (_.indexOf(arraysToCheck[i], element) !== -1) {
+          return element;
+        }
+      }
+    });
   };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var diffs = [];
+    var comparisonArray = arguments[0];
+    //console.log(Array.isArray(comparisonArray));
+    var arraysToCheck = Array.prototype.slice.call(arguments, 1);
+    for (var i = 0; i < comparisonArray.length; i++) {
+      var doesNotExistElsewhere = true;
+      _.each(arraysToCheck, function(element) {
+        if (_.indexOf(element, comparisonArray[i]) > -1) {
+          doesNotExistElsewhere = false;
+        }
+      });
+      if (doesNotExistElsewhere) {
+        diffs.push(comparisonArray[i]);
+      }
+    }
+    return diffs;
+    
+    
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
