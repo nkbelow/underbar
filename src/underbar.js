@@ -442,6 +442,21 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.sort(function(first, next) {
+      return next.length - first.length;
+    });
+    var maxArrayLength = args[0].length;
+    var finalZippedArrayCollection = [];
+    for (var i = 0; i < args[0].length; i++) {
+      var zippedArray = [];
+      for (var j = 0; j < args.length; j++) {
+        zippedArray.push(args[j][i])
+      }
+      finalZippedArrayCollection.push(zippedArray);
+    }
+    return finalZippedArrayCollection;
+
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
@@ -449,6 +464,21 @@
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    //can't use my original thoughts of just reducing the array and using concat
+    //will try to use recursion if array is nested more than one level
+    var flattenedArray = [];
+    var getNumber = function(numberOrArray) {
+      _.each(numberOrArray, function(element) {
+        if (Array.isArray(element)) {
+          getNumber(element);
+        }
+        else {
+          flattenedArray.push(element);
+        }
+      });
+    }
+    getNumber(nestedArray);
+    return flattenedArray;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
