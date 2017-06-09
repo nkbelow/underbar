@@ -383,6 +383,7 @@
 
       it('should apply arguments to the user-defined function', function() {
         var add = _.once(function(x,y,z) {
+          
           return x + y + z;
         });
 
